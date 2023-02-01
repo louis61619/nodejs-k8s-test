@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: node-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-app
+          image: node-docker
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Never
+          env:
+            - name: COUNT
+              valueFrom:
+                configMapKeyRef:
+                  name: sw-envs
+                  key: COUNT
